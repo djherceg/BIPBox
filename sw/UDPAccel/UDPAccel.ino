@@ -23,12 +23,12 @@
 #include <WiFiUdp.h>
 
 // WiFi credentials
-const char* ssid = "your-ssid";
-const char* password = "your-password";
+const char* ssid = "ssid";
+const char* password = "pwd";
 
 // UDP server details
-const char* udpAddress = "192.168.0.255";  // Broadcast address or specific server IP
-const int udpPort = 3333;
+const char* udpAddress = "192.168.0.10";  // Broadcast address or specific server IP
+const int udpPort = 3999;
 
 // UDP instance
 WiFiUDP udp;
@@ -83,7 +83,10 @@ int p;
 bool k1, k2, led1, led2, led3;
 float ax, ay, az, gx, gy, gz;
 bool bmiOK = false;
-unsigned long mils = millis(), oldMils, delta, interval = 500;
+unsigned long mils = millis(), oldMils, delta, interval = 25;
+
+char json_buff[150];
+size_t json_capacity = sizeof(json_buff);
 
 
 void setup() {
@@ -170,8 +173,8 @@ void loop() {
     delta = mils;
     mils = millis();
 
-    char* output;
-    size_t outputCapacity = 150;
+    char* output = json_buff;
+    size_t outputCapacity = json_capacity;
 
     JsonDocument doc;
 
@@ -233,3 +236,28 @@ void bmiLoop() {
    * bmi160.getGyroData(onlyGyro);
    */
 }
+
+
+
+// void parse_command(const char* line) {
+//   char cmd[16];
+//   char arg[128];
+
+//   if (sscanf(line, "%15s %127s", cmd, arg) == 2) {
+//     if (strcmp(cmd, "SERVER") == 0) {
+//       strncpy(server_ip, arg, sizeof(server_ip));
+//       ESP_LOGI("PARSER", "Server set to %s", server_ip);
+//     } else if (strcmp(cmd, "SSID") == 0) {
+//       strncpy(wifi_ssid, arg, sizeof(wifi_ssid));
+//       ESP_LOGI("PARSER", "SSID set to %s", wifi_ssid);
+//     } else if (strcmp(cmd, "PASS") == 0) {
+//       strncpy(wifi_pass, arg, sizeof(wifi_pass));
+//       ESP_LOGI("PARSER", "Password set");
+//     } else if (strcmp(cmd, "UDP") == 0) {
+//       udp_port = atoi(arg);
+//       ESP_LOGI("PARSER", "UDP port set to %d", udp_port);
+//     } else {
+//       ESP_LOGW("PARSER", "Unknown command: %s", cmd);
+//     }
+//   }
+// }
