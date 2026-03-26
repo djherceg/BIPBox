@@ -4,6 +4,17 @@
 // version 0.0.1
 // date 26.3.2026.
 // The purpose of this program is to demonstrate and test sending accelerometer data over UDP
+/*
+    JSON message format
+
+    {
+       "sensor": "accelerometer",
+       "gyro": [1.1,1.2,1.3],
+       "accel": [2.1,2.2,2.3]
+    }
+
+
+*/
 
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
